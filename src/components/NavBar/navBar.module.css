@@ -1,8 +1,12 @@
-.navBar{
-    background-color: #fff !important;
+.navBar {
+    background-color: var(--color-highlight) !important;
     box-shadow: 0 0 1px 0 #000;
-    color: #000;
+    color: #fff;
     padding: 0 1rem;
     position: relative;
     z-index: 1;
+}
+
+.navBar img {
+    filter: invert(1); /* Invierte los colores de la imagen */
 }
