@@ -13,35 +13,35 @@ const CarritoCompra = () => {
     const [cartItems, setCartItems] = useState([
         {
             id: 1,
-            name: 'Producto 1',
+            name: 'Queso rayado',
             price: 20.99,
             imageSrc: imagen1,
         },
         {
             id: 2,
-            name: 'Producto 2',
+            name: 'Jugo en polvo',
             price: 15.49,
             imageSrc: imagen2,
         },
         {
             id: 3,
-            name: 'Producto 3',
+            name: 'Antitranspirante Dave',
             price: 4.22,
             imageSrc: imagen3,
         },
         {
             id: 4,
-            name: 'Producto 4',
+            name: 'Galletitas sonrisas',
             price: 19.49,
             imageSrc: imagen4,
         },{
             id: 5,
-            name: 'Producto 5',
+            name: 'Otras galletitas',
             price: 7.24,
             imageSrc: imagen5,
         },{
             id: 6,
-            name: 'Producto 6',
+            name: 'Crema de leche',
             price: 16.69,
             imageSrc: imagen6,
         }
