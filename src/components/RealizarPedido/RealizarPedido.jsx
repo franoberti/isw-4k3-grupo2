@@ -256,15 +256,7 @@ const RealizarPedido = () => {
                                 </div>
 
                                 <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                    <button type='submit' className=' col-12 btn btn-success' style={{ marginTop: '10px' }}>
-                                        {/* {
-                                        waiting ?
-                                            <div className="spinner-border inv" role="status">
-                                                <span className="visually-hidden">Loading...</span>
-                                            </div>
-                                            :
-                                            <p className='inv' style={{ marginBottom: '0' }}>Registrar Bovino</p>
-                                        } */}
+                                    <button type='submit' className={`col-12 ${styles['btn-realizar-pedido']}`}>
                                         Realizar Pedido
                                     </button>
                                 </div>

@@ -1,5 +1,19 @@
+:root {
+  --color-background: #fff;
+  --color-primary: #006989;
+  --color-secondary: #7c7e81;
+  --color-accent: #007090;
+  --color-highlight: #01A7C2;
+}
+
+
 .App {
   text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .App-logo {
