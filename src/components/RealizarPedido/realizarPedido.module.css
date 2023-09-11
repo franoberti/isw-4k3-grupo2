@@ -18,7 +18,7 @@
     margin-bottom: 1.5rem;
     font-family: 'Poppins', sans-serif !important;
     color: var(--color-primary);
-    font-size: 32px;
+    font-size: 27px;
     font-weight: bold;
 }
 
@@ -27,12 +27,12 @@
     margin-bottom: 0.5rem;
     font-family: 'Poppins', sans-serif !important;
     color: var(--color-secondary);
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .page {
     display: flex;
-    padding: 30px;
+    padding: 10px;
     justify-content: center;
 }
 

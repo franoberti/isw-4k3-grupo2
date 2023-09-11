@@ -1,0 +1,23 @@
+.titulo {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif !important;
+    color: var(--color-primary);
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.subTitulo {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif !important;
+    color: var(--color-secondary);
+    font-size: 20px;
+}
+
+.page {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    background: white;
+}
