@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import NavBar from '../NavBar/NavBar.jsx'
 import Footer from '../Footer/Footer.jsx';
 import styles from './realizarPedido.module.css'
 import CiudadList from '../CiudadList/CiudadList'
 import CarritoCompra from "../CarritoCompra/CarritoCompra";
+import InputMask from "react-input-mask";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 const RealizarPedido = () => {
 
@@ -13,7 +15,7 @@ const RealizarPedido = () => {
     const [isTarjeta, setIsTarjeta] = useState(false)
     const [isFechaEspecifica, setIsFechaEspecifica] = useState(false)
     const [isAntesPosible, setIsAntesPosible] = useState(false)
-
+    const [isVisa, setIsVisa] = useState(false)
 
     const handleSelectedMetodoPago = (event) => {
         setSelectedMetodoPago(event.target.value);
@@ -25,9 +27,7 @@ const RealizarPedido = () => {
             setIsTarjeta(true)
             setIsEfectivo(false)
         }
-
     };
-
     const handleSelectedEntrega = (event) => {
         setSelectedEntrega(event.target.value);
         if (event.target.value === 'FechaEspecifica') {
@@ -40,15 +40,25 @@ const RealizarPedido = () => {
         }
 
     };
+    const handleChange = (event) => {
+        const value = event.target.value;
+        // Validar si el valor comienza con '4' para saber si es tarjeta VISA
+        if (value.startsWith('4')) {
+            setIsVisa(true);
+        }
+        else {
+            setIsVisa(false)
+        }
+    }
 
     return (
         <>
-            <NavBar/>
+            <NavBar />
             <div className="row">
                 <div className="col-4">
                     <div className={`${styles.page}`}>
                         <div className={`${styles.formContainer}`}>
-                            <CarritoCompra/>
+                            <CarritoCompra />
                         </div>
                     </div>
                 </div>
@@ -76,13 +86,26 @@ const RealizarPedido = () => {
                                                         placeholder="Calle y número"
                                                         required
                                                         className='form-control'
-                                                        style={{marginTop: '10px'}}
+                                                        style={{ marginTop: '10px' }}
                                                     />
                                                 </div>
                                             </div>
                                             <div className='d-flex inv '>
                                                 <div className='col-9 inv'>
-                                                    <CiudadList/>
+                                                    <CiudadList />
+                                                </div>
+                                            </div>
+                                            <div className='d-flex inv '>
+                                                <div className='col-9 inv'>
+                                                    <textarea
+                                                        type="text"
+                                                        id='refField'
+                                                        name="referencia"
+                                                        placeholder="Referencias (opcional)"
+                                                        required
+                                                        className='form-control'
+                                                        style={{ marginTop: '10px' }}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -97,8 +120,8 @@ const RealizarPedido = () => {
                                             <div className='d-flex inv '>
                                                 <div className='col-7 inv'>
                                                     <select value={selectedMetodoPago}
-                                                            onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
-                                                            className='form-select' style={{marginTop: '10px'}}>
+                                                        onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
+                                                        className='form-select' style={{ marginTop: '10px' }}>
                                                         <option disabled selected value="none">Forma de pago</option>
                                                         <option value="Efectivo">Efectivo</option>
                                                         <option value="Tarjeta">Debito/Credito</option>
@@ -120,12 +143,11 @@ const RealizarPedido = () => {
                                                         <div className='col-7 inv'>
                                                             <input
                                                                 type="number"
-                                                                step="0.0001"
+                                                                step="0.01"
                                                                 id='montoField'
                                                                 name="monto"
-                                                                placeholder="Monto"
                                                                 className='form-control'
-                                                                style={{marginTop: '10px'}}
+                                                                style={{ marginTop: '10px' }}
                                                             />
                                                         </div>
                                                     </div>
@@ -146,15 +168,7 @@ const RealizarPedido = () => {
                                                                 <span className='inv'>N° de Tarjeta</span>
                                                             </div>
                                                             <div className='col-7 inv'>
-                                                                <input
-                                                                    type="number"
-                                                                    step="0.0001"
-                                                                    id='numTarjetaField'
-                                                                    name="numTarjeta"
-                                                                    placeholder="Numero de Tarjeta"
-                                                                    className='form-control'
-                                                                    style={{marginTop: '10px'}}
-                                                                />
+                                                                <Input as={InputMask} style={{ marginTop: '10px' }} onChange={handleChange} className='form-control' placeholder="Numero de Tarjeta" mask="9999-9999-9999-9999" maskChar={null} />
                                                             </div>
                                                         </div>
                                                         <div className='d-flex inv '>
@@ -174,7 +188,7 @@ const RealizarPedido = () => {
                                                                     name="nombreTarjeta"
                                                                     placeholder="Como figura en la tarjeta"
                                                                     className='form-control'
-                                                                    style={{marginTop: '10px'}}
+                                                                    style={{ marginTop: '10px' }}
                                                                 />
                                                             </div>
                                                         </div>
@@ -189,13 +203,7 @@ const RealizarPedido = () => {
                                                                 <span className='inv'>Fecha de Vencimiento</span>
                                                             </div>
                                                             <div className='col-7 inv'>
-                                                                <input
-                                                                    type="date"
-                                                                    id='fechaVencimientoField'
-                                                                    name="fechaVencimiento"
-                                                                    className='form-control'
-                                                                    style={{marginTop: '10px'}}
-                                                                />
+                                                                <Input as={InputMask} style={{ marginTop: '10px' }} className='form-control' placeholder="MM/AAAA" mask="99/9999" maskChar={null} />
                                                             </div>
                                                         </div>
                                                         <div className='d-flex inv '>
@@ -209,15 +217,7 @@ const RealizarPedido = () => {
                                                                 <span className='inv'>CVV</span>
                                                             </div>
                                                             <div className='col-7 inv'>
-                                                                <input
-                                                                    type="number"
-                                                                    step="0.0001"
-                                                                    id='cvvField'
-                                                                    name="cvv"
-                                                                    placeholder="cvv"
-                                                                    className='form-control'
-                                                                    style={{marginTop: '10px'}}
-                                                                />
+                                                                <Input as={InputMask} style={{ marginTop: '10px' }} className='form-control' placeholder="cvv" mask="999" maskChar={null} />
                                                             </div>
                                                         </div>
                                                     </>
@@ -243,8 +243,8 @@ const RealizarPedido = () => {
                                                 </div>
                                                 <div className='col-12 inv'>
                                                     <select value={selectedEntrega} onChange={handleSelectedEntrega}
-                                                            id="comboBoxEntrega" className='form-select'
-                                                            style={{marginTop: '10px'}}>
+                                                        id="comboBoxEntrega" className='form-select'
+                                                        style={{ marginTop: '10px' }}>
                                                         <option disabled selected value="none"></option>
                                                         <option value="AntesPosible">Lo antes posible</option>
                                                         <option value="FechaEspecifica">Fecha especifica</option>
@@ -254,10 +254,10 @@ const RealizarPedido = () => {
 
                                             {
                                                 isFechaEspecifica ?
-                                                    <div className='d-flex inv ' style={{marginTop: '10px'}}>
+                                                    <div className='d-flex inv ' style={{ marginTop: '10px' }}>
                                                         <div
                                                             className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                            style={{paddingRight: '15px', paddingLeft: '15px'}}>
+                                                            style={{ paddingRight: '15px', paddingLeft: '15px' }}>
                                                             <span className='inv'>Fecha de Entrega</span>
                                                         </div>
                                                         <div className='col-7 inv'>
@@ -266,7 +266,7 @@ const RealizarPedido = () => {
                                                                 id='fechaEntregaField'
                                                                 name="fechaEntrega"
                                                                 className='form-control'
-                                                                style={{marginTop: '10px'}}
+                                                                style={{ marginTop: '10px' }}
                                                             />
                                                         </div>
                                                     </div>
@@ -275,7 +275,7 @@ const RealizarPedido = () => {
                                             }
                                         </div>
 
-                                        <div className='col-4 inv' style={{marginTop: '20px', marginBottom: '20px'}}>
+                                        <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
                                             <button type='submit' className={`col-12 ${styles['btn-realizar-pedido']}`}>
                                                 Realizar Pedido
                                             </button>
@@ -287,7 +287,7 @@ const RealizarPedido = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
 
         </>
     );
