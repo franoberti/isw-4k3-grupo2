@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import NavBar from '../NavBar/NavBar.jsx'
 import Footer from '../Footer/Footer.jsx';
 import styles from './realizarPedido.module.css'
 import CiudadList from '../CiudadList/CiudadList'
+import CarritoCompra from "../CarritoCompra/CarritoCompra";
 
 const RealizarPedido = () => {
 
@@ -12,7 +13,6 @@ const RealizarPedido = () => {
     const [isTarjeta, setIsTarjeta] = useState(false)
     const [isFechaEspecifica, setIsFechaEspecifica] = useState(false)
     const [isAntesPosible, setIsAntesPosible] = useState(false)
-
 
 
     const handleSelectedMetodoPago = (event) => {
@@ -43,12 +43,12 @@ const RealizarPedido = () => {
 
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <div className="row">
                 <div className="col-4">
                     <div className={`${styles.page}`}>
                         <div className={`${styles.formContainer}`}>
-                            {/* Contenido de tu card */}
+                            <CarritoCompra/>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ const RealizarPedido = () => {
                                 <h1 className={`inv text-center ${styles.titulo}`}>Pedido a Comercio Adherido</h1>
                             </div>
                             <form /* onSubmit={submitHandler} */ className='inv'>
-                                <div className='inv d-flex align-items-center justify-content-center' >
+                                <div className='inv d-flex align-items-center justify-content-center'>
                                     <div className='row d-flex justify-content-center inv'>
                                         <div className='col-3 inv'>
 
@@ -76,13 +76,13 @@ const RealizarPedido = () => {
                                                         placeholder="Calle y número"
                                                         required
                                                         className='form-control'
-                                                        style={{ marginTop: '10px' }}
+                                                        style={{marginTop: '10px'}}
                                                     />
                                                 </div>
                                             </div>
                                             <div className='d-flex inv '>
                                                 <div className='col-9 inv'>
-                                                    <CiudadList />
+                                                    <CiudadList/>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,12 +90,15 @@ const RealizarPedido = () => {
                                         <div className='col-6 inv'>
 
                                             <div className='inv'>
-                                                <h1 className={`inv text-center ${styles.subTitulo}`}>Metodo de Pago</h1>
+                                                <h1 className={`inv text-center ${styles.subTitulo}`}>Metodo de
+                                                    Pago</h1>
                                             </div>
 
                                             <div className='d-flex inv '>
                                                 <div className='col-7 inv'>
-                                                    <select value={selectedMetodoPago} onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago" className='form-select' style={{ marginTop: '10px' }}>
+                                                    <select value={selectedMetodoPago}
+                                                            onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
+                                                            className='form-select' style={{marginTop: '10px'}}>
                                                         <option disabled selected value="none">Forma de pago</option>
                                                         <option value="Efectivo">Efectivo</option>
                                                         <option value="Tarjeta">Debito/Credito</option>
@@ -105,7 +108,13 @@ const RealizarPedido = () => {
                                             {
                                                 isEfectivo ?
                                                     <div className='d-flex inv '>
-                                                        <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
+                                                        <div
+                                                            className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                            style={{
+                                                                marginTop: '10px',
+                                                                paddingRight: '15px',
+                                                                paddingLeft: '15px'
+                                                            }}>
                                                             <span className='inv'>Monto con que va a pagar</span>
                                                         </div>
                                                         <div className='col-7 inv'>
@@ -116,7 +125,7 @@ const RealizarPedido = () => {
                                                                 name="monto"
                                                                 placeholder="Monto"
                                                                 className='form-control'
-                                                                style={{ marginTop: '10px' }}
+                                                                style={{marginTop: '10px'}}
                                                             />
                                                         </div>
                                                     </div>
@@ -127,7 +136,13 @@ const RealizarPedido = () => {
                                                 isTarjeta ?
                                                     <>
                                                         <div className='d-flex inv '>
-                                                            <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
+                                                            <div
+                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                                style={{
+                                                                    marginTop: '10px',
+                                                                    paddingRight: '15px',
+                                                                    paddingLeft: '15px'
+                                                                }}>
                                                                 <span className='inv'>N° de Tarjeta</span>
                                                             </div>
                                                             <div className='col-7 inv'>
@@ -138,12 +153,18 @@ const RealizarPedido = () => {
                                                                     name="numTarjeta"
                                                                     placeholder="Numero de Tarjeta"
                                                                     className='form-control'
-                                                                    style={{ marginTop: '10px' }}
+                                                                    style={{marginTop: '10px'}}
                                                                 />
                                                             </div>
                                                         </div>
                                                         <div className='d-flex inv '>
-                                                            <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
+                                                            <div
+                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                                style={{
+                                                                    marginTop: '10px',
+                                                                    paddingRight: '15px',
+                                                                    paddingLeft: '15px'
+                                                                }}>
                                                                 <span className='inv'>Nombre</span>
                                                             </div>
                                                             <div className='col-7 inv'>
@@ -153,12 +174,18 @@ const RealizarPedido = () => {
                                                                     name="nombreTarjeta"
                                                                     placeholder="Como figura en la tarjeta"
                                                                     className='form-control'
-                                                                    style={{ marginTop: '10px' }}
+                                                                    style={{marginTop: '10px'}}
                                                                 />
                                                             </div>
                                                         </div>
                                                         <div className='d-flex inv '>
-                                                            <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
+                                                            <div
+                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                                style={{
+                                                                    marginTop: '10px',
+                                                                    paddingRight: '15px',
+                                                                    paddingLeft: '15px'
+                                                                }}>
                                                                 <span className='inv'>Fecha de Vencimiento</span>
                                                             </div>
                                                             <div className='col-7 inv'>
@@ -167,12 +194,18 @@ const RealizarPedido = () => {
                                                                     id='fechaVencimientoField'
                                                                     name="fechaVencimiento"
                                                                     className='form-control'
-                                                                    style={{ marginTop: '10px' }}
+                                                                    style={{marginTop: '10px'}}
                                                                 />
                                                             </div>
                                                         </div>
                                                         <div className='d-flex inv '>
-                                                            <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
+                                                            <div
+                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                                style={{
+                                                                    marginTop: '10px',
+                                                                    paddingRight: '15px',
+                                                                    paddingLeft: '15px'
+                                                                }}>
                                                                 <span className='inv'>CVV</span>
                                                             </div>
                                                             <div className='col-7 inv'>
@@ -183,7 +216,7 @@ const RealizarPedido = () => {
                                                                     name="cvv"
                                                                     placeholder="cvv"
                                                                     className='form-control'
-                                                                    style={{ marginTop: '10px' }}
+                                                                    style={{marginTop: '10px'}}
                                                                 />
                                                             </div>
                                                         </div>
@@ -199,11 +232,19 @@ const RealizarPedido = () => {
                                             </div>
                                             <div className='inv'>
 
-                                                <div className='d-flex col-12 inv text-center align-items-center justify-content-center ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
+                                                <div
+                                                    className='d-flex col-12 inv text-center align-items-center justify-content-center '
+                                                    style={{
+                                                        marginTop: '10px',
+                                                        paddingRight: '15px',
+                                                        paddingLeft: '15px'
+                                                    }}>
                                                     <span className='inv'>¿Cuando quiere Recibirlo?</span>
                                                 </div>
                                                 <div className='col-12 inv'>
-                                                    <select value={selectedEntrega} onChange={handleSelectedEntrega} id="comboBoxEntrega" className='form-select' style={{ marginTop: '10px' }}>
+                                                    <select value={selectedEntrega} onChange={handleSelectedEntrega}
+                                                            id="comboBoxEntrega" className='form-select'
+                                                            style={{marginTop: '10px'}}>
                                                         <option disabled selected value="none"></option>
                                                         <option value="AntesPosible">Lo antes posible</option>
                                                         <option value="FechaEspecifica">Fecha especifica</option>
@@ -214,7 +255,9 @@ const RealizarPedido = () => {
                                             {
                                                 isFechaEspecifica ?
                                                     <div className='d-flex inv ' style={{marginTop: '10px'}}>
-                                                        <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ paddingRight: '15px', paddingLeft: '15px' }}>
+                                                        <div
+                                                            className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                            style={{paddingRight: '15px', paddingLeft: '15px'}}>
                                                             <span className='inv'>Fecha de Entrega</span>
                                                         </div>
                                                         <div className='col-7 inv'>
@@ -223,7 +266,7 @@ const RealizarPedido = () => {
                                                                 id='fechaEntregaField'
                                                                 name="fechaEntrega"
                                                                 className='form-control'
-                                                                style={{ marginTop: '10px' }}
+                                                                style={{marginTop: '10px'}}
                                                             />
                                                         </div>
                                                     </div>
@@ -232,7 +275,7 @@ const RealizarPedido = () => {
                                             }
                                         </div>
 
-                                        <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        <div className='col-4 inv' style={{marginTop: '20px', marginBottom: '20px'}}>
                                             <button type='submit' className={`col-12 ${styles['btn-realizar-pedido']}`}>
                                                 Realizar Pedido
                                             </button>
@@ -244,7 +287,7 @@ const RealizarPedido = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
 
         </>
     );
