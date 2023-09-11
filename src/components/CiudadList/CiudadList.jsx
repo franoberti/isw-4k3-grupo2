@@ -3,7 +3,7 @@ import React from 'react';
 const CiudadList = () => {
     return (
         <select id="comboBoxCiudad" className='form-select' style={{ marginTop: '10px' }}>
-            <option disabled selected value="none" style={{color: "gray"}}>Ciudad</option>
+            <option disabled selected value="none">Ciudad</option>
             <option value="">Villa Carlos Paz</option>
             <option value="">Santa Rosa de Calamuchita</option>
             <option value="">Villa General Belgrano</option>

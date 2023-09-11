@@ -61,7 +61,7 @@ const RealizarPedido = () => {
                             <form /* onSubmit={submitHandler} */ className='inv'>
                                 <div className='inv d-flex align-items-center justify-content-center' >
                                     <div className='row d-flex justify-content-center inv'>
-                                        <div className='col-3 inv '>
+                                        <div className='col-3 inv'>
 
                                             <div className='inv'>
                                                 <h1 className={`inv text-center ${styles.subTitulo}`}>Domicilio</h1>
@@ -73,21 +73,8 @@ const RealizarPedido = () => {
                                                         type="text"
                                                         id='calleField'
                                                         name="calle"
-                                                        placeholder="Calle"
+                                                        placeholder="Calle y número"
                                                         required
-                                                        className='form-control'
-                                                        style={{ marginTop: '10px' }}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className='d-flex inv '>
-                                                <div className='col-9 inv'>
-                                                    <input
-                                                        type="number"
-                                                        step="0.0001"
-                                                        id='numeroField'
-                                                        name="numero"
-                                                        placeholder="Número"
                                                         className='form-control'
                                                         style={{ marginTop: '10px' }}
                                                     />
@@ -107,12 +94,9 @@ const RealizarPedido = () => {
                                             </div>
 
                                             <div className='d-flex inv '>
-                                                <div className='d-flex col-5 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
-                                                    <span className='inv'>Forma de Pago</span>
-                                                </div>
                                                 <div className='col-7 inv'>
                                                     <select value={selectedMetodoPago} onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago" className='form-select' style={{ marginTop: '10px' }}>
-                                                        <option disabled selected value="none"></option>
+                                                        <option disabled selected value="none">Forma de pago</option>
                                                         <option value="Efectivo">Efectivo</option>
                                                         <option value="Tarjeta">Debito/Credito</option>
                                                     </select>
