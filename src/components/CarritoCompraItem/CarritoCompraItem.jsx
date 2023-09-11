@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './carritocompraitem.module.css';
-
+import IconoEliminar from '../../assets/icono-eliminar.svg'
 const CarritoCompraItem = ({ item, onRemoveItem }) => {
     return (
         <div className="row">
@@ -20,8 +20,8 @@ const CarritoCompraItem = ({ item, onRemoveItem }) => {
                 </p>
             </div>
             <div className="col-2 bg-white">
-                <button onClick={() => onRemoveItem(item.id)}>
-                    <i className="fas fa-trash"></i>
+                <button onClick={() => onRemoveItem(item.id)} style={{ border: 'none', backgroundColor: 'white', marginTop: 25 }}>
+                    <img src={IconoEliminar} alt="Trash Icon" style={{ backgroundColor: "white", width: 20, height:20}}/>
                 </button>
             </div>
         </div>
