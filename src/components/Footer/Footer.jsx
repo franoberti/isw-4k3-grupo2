@@ -16,7 +16,7 @@ const Footer = () => {
             <div className={`${styles.integrantes} inv row justify-content-center`}>
               <div className="col-6 inv">
                 <p className='m-0 inv'>- Bouza Victor; Legajo: 89248</p>
-                <p className='m-0 inv'>- Guzman Sol; Legajo: </p>
+                <p className='m-0 inv'>- Guzman Sol; Legajo: 85504</p>
                 <p className='m-0 inv'>- Hosman Ramiro; Legajo: 87013</p>
 
               </div>
