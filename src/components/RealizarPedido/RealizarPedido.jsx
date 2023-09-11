@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NavBar from '../NavBar/NavBar.jsx'
 import Footer from '../Footer/Footer.jsx';
 import styles from './realizarPedido.module.css'
+import CiudadList from '../CiudadList/CiudadList'
 
 const RealizarPedido = () => {
 
@@ -93,19 +94,8 @@ const RealizarPedido = () => {
                                                 </div>
                                             </div>
                                             <div className='d-flex inv '>
-                                                <div className='d-flex col-3 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
-                                                    <span className='inv'>Ciudad</span>
-                                                </div>
                                                 <div className='col-9 inv'>
-                                                    <select /* value={selectedCiudad} onChange={handleSelectedCiudad} */ id="comboBoxCiudad" className='form-select' style={{ marginTop: '10px' }}>
-                                                        <option disabled selected value="none"></option>
-                                                        <option value="">Villa Carlos Paz</option>
-                                                        <option value="">Santa Rosa de Calamuchita</option>
-                                                        <option value="">Villa General Belgrano</option>
-                                                        <option value="">Cosquín</option>
-                                                        <option value="">Mina Clavero</option>
-                                                        <option value="">Nono</option>
-                                                    </select>
+                                                    <CiudadList />
                                                 </div>
                                             </div>
                                         </div>
