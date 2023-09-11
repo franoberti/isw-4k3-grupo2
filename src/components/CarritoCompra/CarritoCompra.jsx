@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
 import styles from './carritocompra.module.css'
 import CarritoCompraItem from "../CarritoCompraItem/CarritoCompraItem";
-
+import imagen1 from '../../assets/1.jpg';
+import imagen2 from '../../assets/2.jpg';
+import imagen3 from '../../assets/3.jpg';
+import imagen4 from '../../assets/4.jpg';
+import imagen5 from '../../assets/5.jpg';
+import imagen6 from '../../assets/6.jpg';
 
 const CarritoCompra = () => {
 
@@ -10,15 +15,36 @@ const CarritoCompra = () => {
             id: 1,
             name: 'Producto 1',
             price: 20.99,
-            imageSrc: 'imagen1.jpg',
+            imageSrc: imagen1,
         },
         {
             id: 2,
             name: 'Producto 2',
             price: 15.49,
-            imageSrc: 'imagen2.jpg',
+            imageSrc: imagen2,
         },
-        // Agrega más elementos según sea necesario.
+        {
+            id: 3,
+            name: 'Producto 3',
+            price: 4.22,
+            imageSrc: imagen3,
+        },
+        {
+            id: 4,
+            name: 'Producto 4',
+            price: 19.49,
+            imageSrc: imagen4,
+        },{
+            id: 5,
+            name: 'Producto 5',
+            price: 7.24,
+            imageSrc: imagen5,
+        },{
+            id: 6,
+            name: 'Producto 6',
+            price: 16.69,
+            imageSrc: imagen6,
+        }
     ]);
 
     const handleRemoveItem = (itemId) => {
@@ -28,18 +54,19 @@ const CarritoCompra = () => {
     };
 
     return (
-        <div className="col">
+        <div className="col bg-white">
+            <div className='inv'>
+                <h1 className={`inv text-center ${styles.titulo}`}>Resumen</h1>
+            </div>
             <div className={`${styles.page}`}>
-                <div className='inv'>
-                    <h1 className={`inv text-center ${styles.titulo}`}>Resumen</h1>
-                    {cartItems.map((item) => (
-                        <CarritoCompraItem
-                            key={item.id}
-                            item={item}
-                            onRemoveItem={handleRemoveItem}
-                        />
-                    ))}
-                </div>
+
+                {cartItems.map((item) => (
+                    <CarritoCompraItem
+                        key={item.id}
+                        item={item}
+                        onRemoveItem={handleRemoveItem}
+                    />
+                ))}
             </div>
         </div>
     );
