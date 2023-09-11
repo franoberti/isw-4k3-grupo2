@@ -11,21 +11,25 @@
     box-shadow: 0 0 1px 0 #000;
     display: flex;
     align-items: center;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .title {
     font-size: 15px;
     font-weight: 500;
     color: var(--color-primary);
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .subTitle {
     font-size: 13px;
     font-weight: 500;
     color: var(--color-accent);
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .integrantes {
     width: 450px;
     margin-left: 30px !important;
+    font-family: 'Poppins', sans-serif !important;
 }
