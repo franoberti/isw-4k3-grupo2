@@ -66,6 +66,22 @@ const RealizarPedido = () => {
             });
             return false
         }
+        if (selectedMetodoPago === "none") {
+
+            toast.error('Debe elegir una forma de pago', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 5000, // Duración de 5 segundos
+            });
+            return false
+        }
+        if (selectedEntrega === "none") {
+
+            toast.error('Debe seleccionar cuándo quiere recibir el pedido', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 5000, // Duración de 5 segundos
+            });
+            return false
+        }
         else {
             if (isTarjeta) {
                 if (!document.getElementById('numTarjetaField').value.startsWith(4)) {
