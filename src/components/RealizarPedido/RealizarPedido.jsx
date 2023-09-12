@@ -11,6 +11,7 @@ import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 const RealizarPedido = () => {
 
+    const [calle, setCalle] = useState('');
     const [selectedMetodoPago, setSelectedMetodoPago] = useState("none");
     const [selectedEntrega, setSelectedEntrega] = useState("none");
     const [isEfectivo, setIsEfectivo] = useState(false)
@@ -23,6 +24,8 @@ const RealizarPedido = () => {
     const [selectedCiudad, setSelectedCiudad] = useState("none")
     const [hora, setHora] = useState('');
     const [horaInvalida, setHoraInvalida] = useState(false);
+    const [charCount, setCharCount] = useState(0);
+    const maxCharCount = 100;
 
     const handleSelectedMetodoPago = (event) => {
         setSelectedMetodoPago(event.target.value);
@@ -57,6 +60,14 @@ const RealizarPedido = () => {
             setIsVisa(false)
         }
     }
+
+    const handleCalleChange = (e) => {
+        const inputValue = e.target.value;
+        setCalle(inputValue);
+        setCharCount(inputValue.length);
+    };
+
+
     const validateFields = () => {
         if (!document.getElementById('calleField').value || selectedCiudad === "none") {
 
@@ -211,7 +222,7 @@ const RealizarPedido = () => {
                                             <h1 className={`inv text-center ${styles.subTitulo}`}>Domicilio</h1>
                                         </div>
 
-                                        <div className='d-flex inv '>
+                                        <div className='inv'>
                                             <div className='col-12 inv'>
                                                 <input
                                                     type="text"
@@ -219,9 +230,15 @@ const RealizarPedido = () => {
                                                     name="calle"
                                                     placeholder="Calle y número"
                                                     required
-                                                    className='form-control'
+                                                    className={`form-control ${calle.length > maxCharCount ? 'is-invalid' : ''}`}
                                                     style={{ marginTop: '10px' }}
+                                                    value={calle}
+                                                    onChange={handleCalleChange}
+                                                    maxLength={maxCharCount}
                                                 />
+                                                <div className="text-muted small bg-white rounded p-1 text-right">
+                                                    <small className='bg-white'>{charCount}/{maxCharCount}</small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className='d-flex inv '>
