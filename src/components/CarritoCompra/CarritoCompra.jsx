@@ -60,13 +60,19 @@ const CarritoCompra = () => {
             </div>
             <div className={`${styles.page}`}>
 
-                {cartItems.map((item) => (
+                {cartItems.length < 1 ?
+                <div className='row text-center inv'>
+                    <h3 className='inv'>El carrito esta vacio!</h3>
+                </div>
+                :
+                cartItems.map((item) => (
                     <CarritoCompraItem
                         key={item.id}
                         item={item}
                         onRemoveItem={handleRemoveItem}
                     />
-                ))}
+                ))
+                }
             </div>
         </div>
     );

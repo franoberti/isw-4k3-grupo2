@@ -23,7 +23,7 @@ const Footer = () => {
               <div className="col-6 inv">
                 <p className='m-0 inv'>- Lozada Gonzalo; Legajo: 65329</p>
                 <p className='m-0 inv'>- Mendibe Bautista; Legajo: 89249</p>
-                <p className='m-0 inv'>- Obert Francisco; Legajo: 71915</p>
+                <p className='m-0 inv'>- Oberti Francisco; Legajo: 71915</p>
               </div>
             </div>
           </div>
