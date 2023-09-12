@@ -1,15 +1,18 @@
 import React from 'react';
 
-const CiudadList = () => {
+const CiudadList = ({ setSelectedCiudad }) => {
+    const handleSelectedCiudad = (event) => {
+        setSelectedCiudad(event.target.value);
+    };
     return (
-        <select id="comboBoxCiudad" className='form-select' style={{ marginTop: '10px' }}>
+        <select id="comboBoxCiudad" onChange={handleSelectedCiudad} className='form-select' style={{ marginTop: '10px' }}>
             <option disabled selected value="none">Ciudad</option>
-            <option value="">Villa Carlos Paz</option>
-            <option value="">Santa Rosa de Calamuchita</option>
-            <option value="">Villa General Belgrano</option>
-            <option value="">Cosquín</option>
-            <option value="">Mina Clavero</option>
-            <option value="">Nono</option>
+            <option value="Villa Carlos Paz">Villa Carlos Paz</option>
+            <option value="Santa Rosa de Calamuchita">Santa Rosa de Calamuchita</option>
+            <option value="Villa General Belgrano">Villa General Belgrano</option>
+            <option value="Cosquín">Cosquín</option>
+            <option value="Mina Clavero">Mina Clavero</option>
+            <option value="Nono">Nono</option>
         </select>
     );
 }

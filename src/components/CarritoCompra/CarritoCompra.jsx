@@ -8,7 +8,7 @@ import imagen4 from '../../assets/4.jpg';
 import imagen5 from '../../assets/5.jpg';
 import imagen6 from '../../assets/6.jpg';
 
-const CarritoCompra = () => {
+const CarritoCompra = ({ setIsCartEmpty }) => {
 
     const [cartItems, setCartItems] = useState([
         {
@@ -51,6 +51,11 @@ const CarritoCompra = () => {
         // Lógica para eliminar un artículo del carrito.
         const updatedCartItems = cartItems.filter(item => item.id !== itemId);
         setCartItems(updatedCartItems);
+        if(updatedCartItems.length > 0){
+            setIsCartEmpty(false)      
+        }else{
+            setIsCartEmpty(true)
+        }
     };
 
     return (
