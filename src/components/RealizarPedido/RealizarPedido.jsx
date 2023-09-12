@@ -21,6 +21,8 @@ const RealizarPedido = () => {
     const [isVisa, setIsVisa] = useState(false)
     const [isCartEmpty, setIsCartEmpty] = useState(false)
     const [selectedCiudad, setSelectedCiudad] = useState("none")
+    const [hora, setHora] = useState('');
+    const [horaInvalida, setHoraInvalida] = useState(false);
 
     const handleSelectedMetodoPago = (event) => {
         setSelectedMetodoPago(event.target.value);
@@ -56,27 +58,27 @@ const RealizarPedido = () => {
         }
     }
     const validateFields = () => {
-        if(!document.getElementById('calleField').value || selectedCiudad === "none" ){
-            
+        if (!document.getElementById('calleField').value || selectedCiudad === "none") {
+
             toast.error('Debe completar Todos los campos (Revise el domicilio)', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 5000, // Duración de 5 segundos
             });
             return false
         }
-        else{
-            if(isTarjeta){
-                if(!document.getElementById('numTarjetaField').value.startsWith(4)){
-                    
+        else {
+            if (isTarjeta) {
+                if (!document.getElementById('numTarjetaField').value.startsWith(4)) {
+
                     toast.error('La tarjeta ingresada no es VISA, por lo tanto es rechazada', {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 5000, // Duración de 5 segundos
                     });
                     return false
                 }
-                else{
-                    if(!document.getElementById('nombreTarjetaField').value || !document.getElementById('vencimientoTarjetaField').value || !document.getElementById('cvvField').value){
-                        
+                else {
+                    if (!document.getElementById('nombreTarjetaField').value || !document.getElementById('vencimientoTarjetaField').value || !document.getElementById('cvvField').value) {
+
                         toast.error('Debe ingresar todos los datos de la tarjeta', {
                             position: toast.POSITION.TOP_CENTER,
                             autoClose: 5000, // Duración de 5 segundos
@@ -85,9 +87,15 @@ const RealizarPedido = () => {
                     }
                 }
             }
-            if(isEfectivo){
-                if(document.getElementById('montoField').value <= 0 || !document.getElementById('montoField').value){
-                    
+            if (isEfectivo) {
+                if (!document.getElementById('montoField').value) {
+                    toast.error('Debes indicar el monto a pagar', {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 5000, // Duración de 5 segundos
+                    });
+                    return false
+                }
+                if (document.getElementById('montoField').value <= 0) {
                     toast.error('El monto en efectivo ingresado no es valido', {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 5000, // Duración de 5 segundos
@@ -95,20 +103,20 @@ const RealizarPedido = () => {
                     return false
                 }
             }
-            if(isFechaEspecifica){
-                if(!document.getElementById('fechaEntregaField').value){
+            if (isFechaEspecifica) {
+                if (!document.getElementById('fechaEntregaField').value) {
                     toast.error('Debe seleccionar la fecha de entrega deseada', {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 5000, // Duración de 5 segundos
                     });
                     return false
                 }
-                else{
+                else {
                     const maxDate = new Date();
-                    maxDate.setDate(maxDate.getDate() + 14)
+                    maxDate.setDate(maxDate.getDate() + 7)
                     const fechaEntrega = new Date(document.getElementById('fechaEntregaField').value)
 
-                    if(fechaEntrega > maxDate){
+                    if (fechaEntrega > maxDate) {
                         toast.error('La fecha de entrega no puede ser mayor a 2 semanas', {
                             position: toast.POSITION.TOP_CENTER,
                             autoClose: 5000, // Duración de 5 segundos
@@ -116,27 +124,50 @@ const RealizarPedido = () => {
                         return false
                     }
 
-                }   
+                    const inputHora = document.getElementById('horaEntregaField').value
+                    const horaValida = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(inputHora);
+
+                    if (!horaValida) {
+                        toast.error('La hora de entrega no es una hora valida', {
+                            position: toast.POSITION.TOP_CENTER,
+                            autoClose: 5000, // Duración de 5 segundos
+                        });
+                        return false
+                    }
+
+                    const horaValidaEntrega = /^(0[8-9]|1[0-9]|2[0-2]):[0-5][0-9]$/.test(inputHora);
+                    if (!horaValidaEntrega) {
+                        toast.error('Durante la hora de entrega ingresada no realizamos entregas', {
+                            position: toast.POSITION.TOP_CENTER,
+                            autoClose: 5000, // Duración de 5 segundos
+                        });
+                        return false
+                    }
+
+                }
             }
             return true
         }
     }
+
+
     const submitHandler = () => {
-        
-        if(validateFields()){
-            if(!isCartEmpty){
+
+        if (!isCartEmpty) {
+            if (validateFields()) {
                 toast.success('¡El pedido se ha realizado con éxito!', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 5000, // Duración de 5 segundos
                 });
             }
-            else{
-                toast.error('¡El Carrito esta vacio!', {
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: 5000, // Duración de 5 segundos
-                });
-            }
         }
+        else {
+            toast.error('¡El Carrito esta vacio!', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 5000, // Duración de 5 segundos
+            });
+        }
+
     }
 
     return (
@@ -156,66 +187,93 @@ const RealizarPedido = () => {
                             <div className='inv'>
                                 <h1 className={`inv text-center ${styles.titulo}`}>Pedido a Comercio Adherido</h1>
                             </div>
-                                <div className='inv d-flex align-items-center justify-content-center'>
-                                    <div className='row d-flex justify-content-center inv'>
-                                        <div className='col-3 inv'>
+                            <div className='inv d-flex align-items-center justify-content-center'>
+                                <div className='row d-flex justify-content-center inv'>
+                                    <div className='col-3 inv'>
 
-                                            <div className='inv'>
-                                                <h1 className={`inv text-center ${styles.subTitulo}`}>Domicilio</h1>
-                                            </div>
-
-                                            <div className='d-flex inv '>
-                                                <div className='col-10 inv'>
-                                                    <input
-                                                        type="text"
-                                                        id='calleField'
-                                                        name="calle"
-                                                        placeholder="Calle y número"
-                                                        required
-                                                        className='form-control'
-                                                        style={{ marginTop: '10px' }}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className='d-flex inv '>
-                                                <div className='col-10 inv'>
-                                                    <CiudadList setSelectedCiudad={setSelectedCiudad} />
-                                                </div>
-                                            </div>
-                                            <div className='d-flex inv '>
-                                                <div className='col-10 inv'>
-                                                    <textarea
-                                                        type="text"
-                                                        id='refField'
-                                                        name="referencia"
-                                                        placeholder="Referencias (opcional)"
-                                                        className='form-control'
-                                                        style={{ marginTop: '10px' }}
-                                                    />
-                                                </div>
-                                            </div>
+                                        <div className='inv'>
+                                            <h1 className={`inv text-center ${styles.subTitulo}`}>Domicilio</h1>
                                         </div>
 
-                                        <div className='col-6 inv'>
-
-                                            <div className='inv'>
-                                                <h1 className={`inv text-center ${styles.subTitulo}`}>Metodo de
-                                                    Pago</h1>
+                                        <div className='d-flex inv '>
+                                            <div className='col-12 inv'>
+                                                <input
+                                                    type="text"
+                                                    id='calleField'
+                                                    name="calle"
+                                                    placeholder="Calle y número"
+                                                    required
+                                                    className='form-control'
+                                                    style={{ marginTop: '10px' }}
+                                                />
                                             </div>
+                                        </div>
+                                        <div className='d-flex inv '>
+                                            <div className='col-12 inv'>
+                                                <CiudadList setSelectedCiudad={setSelectedCiudad} />
+                                            </div>
+                                        </div>
+                                        <div className='d-flex inv '>
+                                            <div className='col-12 inv'>
+                                                <textarea
+                                                    type="text"
+                                                    id='refField'
+                                                    name="referencia"
+                                                    placeholder="Referencias (opcional)"
+                                                    className='form-control'
+                                                    style={{ marginTop: '10px' }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                            <div className='d-flex inv '>
-                                                <div className='col-7 inv'>
-                                                    <select value={selectedMetodoPago}
-                                                        onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
-                                                        className='form-select' style={{ marginTop: '10px' }}>
-                                                        <option disabled selected value="none">Forma de pago</option>
-                                                        <option value="Efectivo">Efectivo</option>
-                                                        <option value="Tarjeta">Debito/Credito</option>
-                                                    </select>
+                                    <div className='col-5 inv'>
+
+                                        <div className='inv'>
+                                            <h1 className={`inv text-center ${styles.subTitulo}`}>Metodo de
+                                                Pago</h1>
+                                        </div>
+
+                                        <div className='d-flex inv justify-content-center'>
+                                            <div className='col-8 inv'>
+                                                <select value={selectedMetodoPago}
+                                                    onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
+                                                    className='form-select' style={{ marginTop: '10px' }}>
+                                                    <option disabled selected value="none">Forma de pago</option>
+                                                    <option value="Efectivo">Efectivo</option>
+                                                    <option value="Tarjeta">Debito/Credito</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {
+                                            isEfectivo ?
+                                                <div className='d-flex inv '>
+                                                    <div
+                                                        className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                        style={{
+                                                            marginTop: '10px',
+                                                            paddingRight: '15px',
+                                                            paddingLeft: '15px'
+                                                        }}>
+                                                        <span className='inv'>Monto con que va a pagar</span>
+                                                    </div>
+                                                    <div className='col-7 inv'>
+                                                        <input
+                                                            type="number"
+                                                            step="0.01"
+                                                            id='montoField'
+                                                            name="monto"
+                                                            className='form-control'
+                                                            style={{ marginTop: '10px' }}
+                                                        />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            {
-                                                isEfectivo ?
+                                                :
+                                                <></>
+                                        }
+                                        {
+                                            isTarjeta ?
+                                                <>
                                                     <div className='d-flex inv '>
                                                         <div
                                                             className='d-flex col-5 inv text-center align-items-center justify-content-end '
@@ -224,110 +282,84 @@ const RealizarPedido = () => {
                                                                 paddingRight: '15px',
                                                                 paddingLeft: '15px'
                                                             }}>
-                                                            <span className='inv'>Monto con que va a pagar</span>
+                                                            <span className='inv'>N° de Tarjeta</span>
+                                                        </div>
+                                                        <div className='col-7 inv'>
+                                                            <Input as={InputMask} style={{ marginTop: '10px' }} onChange={handleChange} id='numTarjetaField' className='form-control' placeholder="Numero de Tarjeta" mask="9999-9999-9999-9999" maskChar={null} />
+                                                        </div>
+                                                    </div>
+                                                    <div className='d-flex inv '>
+                                                        <div
+                                                            className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                            style={{
+                                                                marginTop: '10px',
+                                                                paddingRight: '15px',
+                                                                paddingLeft: '15px'
+                                                            }}>
+                                                            <span className='inv'>Nombre</span>
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <input
-                                                                type="number"
-                                                                step="0.01"
-                                                                id='montoField'
-                                                                name="monto"
+                                                                type="text"
+                                                                id='nombreTarjetaField'
+                                                                name="nombreTarjeta"
+                                                                placeholder="Como figura en la tarjeta"
                                                                 className='form-control'
                                                                 style={{ marginTop: '10px' }}
                                                             />
                                                         </div>
                                                     </div>
-                                                    :
-                                                    <></>
-                                            }
-                                            {
-                                                isTarjeta ?
-                                                    <>
-                                                        <div className='d-flex inv '>
-                                                            <div
-                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                                style={{
-                                                                    marginTop: '10px',
-                                                                    paddingRight: '15px',
-                                                                    paddingLeft: '15px'
-                                                                }}>
-                                                                <span className='inv'>N° de Tarjeta</span>
-                                                            </div>
-                                                            <div className='col-7 inv'>
-                                                                <Input as={InputMask} style={{ marginTop: '10px' }} onChange={handleChange} id='numTarjetaField' className='form-control' placeholder="Numero de Tarjeta" mask="9999-9999-9999-9999" maskChar={null} />
-                                                            </div>
+                                                    <div className='d-flex inv '>
+                                                        <div
+                                                            className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                            style={{
+                                                                marginTop: '10px',
+                                                                paddingRight: '15px',
+                                                                paddingLeft: '15px'
+                                                            }}>
+                                                            <span className='inv'>Fecha de Vencimiento</span>
                                                         </div>
-                                                        <div className='d-flex inv '>
-                                                            <div
-                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                                style={{
-                                                                    marginTop: '10px',
-                                                                    paddingRight: '15px',
-                                                                    paddingLeft: '15px'
-                                                                }}>
-                                                                <span className='inv'>Nombre</span>
-                                                            </div>
-                                                            <div className='col-7 inv'>
-                                                                <input
-                                                                    type="text"
-                                                                    id='nombreTarjetaField'
-                                                                    name="nombreTarjeta"
-                                                                    placeholder="Como figura en la tarjeta"
-                                                                    className='form-control'
-                                                                    style={{ marginTop: '10px' }}
-                                                                />
-                                                            </div>
+                                                        <div className='col-7 inv'>
+                                                            <Input as={InputMask} id="vencimientoTarjetaField" style={{ marginTop: '10px' }} className='form-control' placeholder="MM/AAAA" mask="99/9999" maskChar={null} />
                                                         </div>
-                                                        <div className='d-flex inv '>
-                                                            <div
-                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                                style={{
-                                                                    marginTop: '10px',
-                                                                    paddingRight: '15px',
-                                                                    paddingLeft: '15px'
-                                                                }}>
-                                                                <span className='inv'>Fecha de Vencimiento</span>
-                                                            </div>
-                                                            <div className='col-7 inv'>
-                                                                <Input as={InputMask} id="vencimientoTarjetaField" style={{ marginTop: '10px' }} className='form-control' placeholder="MM/AAAA" mask="99/9999" maskChar={null} />
-                                                            </div>
+                                                    </div>
+                                                    <div className='d-flex inv '>
+                                                        <div
+                                                            className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                            style={{
+                                                                marginTop: '10px',
+                                                                paddingRight: '15px',
+                                                                paddingLeft: '15px'
+                                                            }}>
+                                                            <span className='inv'>CVV</span>
                                                         </div>
-                                                        <div className='d-flex inv '>
-                                                            <div
-                                                                className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                                style={{
-                                                                    marginTop: '10px',
-                                                                    paddingRight: '15px',
-                                                                    paddingLeft: '15px'
-                                                                }}>
-                                                                <span className='inv'>CVV</span>
-                                                            </div>
-                                                            <div className='col-7 inv'>
-                                                                <Input as={InputMask} id='cvvField' style={{ marginTop: '10px' }} className='form-control' placeholder="cvv" mask="999" maskChar={null} />
-                                                            </div>
+                                                        <div className='col-7 inv'>
+                                                            <Input as={InputMask} id='cvvField' style={{ marginTop: '10px' }} className='form-control' placeholder="cvv" mask="999" maskChar={null} />
                                                         </div>
-                                                    </>
-                                                    :
-                                                    <></>
-                                            }
+                                                    </div>
+                                                </>
+                                                :
+                                                <></>
+                                        }
+                                    </div>
+                                    <div className='col-4 inv'>
+
+                                        <div className='inv'>
+                                            <h1 className={`inv text-center ${styles.subTitulo}`}>Entrega</h1>
                                         </div>
-                                        <div className='col-3 inv'>
+                                        <div className='inv'>
 
-                                            <div className='inv'>
-                                                <h1 className={`inv text-center ${styles.subTitulo}`}>Entrega</h1>
+                                            <div
+                                                className='d-flex col-12 inv text-center align-items-center justify-content-center '
+                                                style={{
+                                                    marginTop: '10px',
+                                                    paddingRight: '15px',
+                                                    paddingLeft: '15px'
+                                                }}>
+                                                <span className='inv'>¿Cuando quiere Recibirlo?</span>
                                             </div>
-                                            <div className='inv'>
-
-                                                <div
-                                                    className='d-flex col-12 inv text-center align-items-center justify-content-center '
-                                                    style={{
-                                                        marginTop: '10px',
-                                                        paddingRight: '15px',
-                                                        paddingLeft: '15px'
-                                                    }}>
-                                                    <span className='inv'>¿Cuando quiere Recibirlo?</span>
-                                                </div>
-                                                <div className='col-12 inv'>
+                                            <div className='inv d-flex justify-content-center'>
+                                                <div className='col-9 inv'>
                                                     <select value={selectedEntrega} onChange={handleSelectedEntrega}
                                                         id="comboBoxEntrega" className='form-select'
                                                         style={{ marginTop: '10px' }}>
@@ -337,9 +369,11 @@ const RealizarPedido = () => {
                                                     </select>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            {
-                                                isFechaEspecifica ?
+                                        {
+                                            isFechaEspecifica ?
+                                                <>
                                                     <div className='d-flex inv ' style={{ marginTop: '10px' }}>
                                                         <div
                                                             className='d-flex col-5 inv text-center align-items-center justify-content-end '
@@ -356,18 +390,33 @@ const RealizarPedido = () => {
                                                             />
                                                         </div>
                                                     </div>
-                                                    :
-                                                    <></>
-                                            }
-                                        </div>
+                                                    <div className='d-flex inv '>
+                                                        <div
+                                                            className='d-flex col-5 inv text-center align-items-center justify-content-end '
+                                                            style={{
+                                                                marginTop: '10px',
+                                                                paddingRight: '15px',
+                                                                paddingLeft: '15px'
+                                                            }}>
+                                                            <span className='inv'>Hora</span>
+                                                        </div>
+                                                        <div className='col-7 inv'>
+                                                            <Input as={InputMask} id='horaEntregaField' style={{ marginTop: '10px' }} className='form-control' placeholder="HH:MM" mask="99:99" maskChar={null} />
+                                                        </div>
+                                                    </div>
+                                                </>
+                                                :
+                                                <></>
+                                        }
+                                    </div>
 
-                                        <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                            <button onClick={submitHandler} className={`col-12 ${styles['btn-realizar-pedido']}`}>
-                                                Realizar Pedido
-                                            </button>
-                                        </div>
+                                    <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        <button onClick={submitHandler} className={`col-12 ${styles['btn-realizar-pedido']}`}>
+                                            Realizar Pedido
+                                        </button>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>

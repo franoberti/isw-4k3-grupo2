@@ -39,13 +39,22 @@ const CarritoCompra = ({ setIsCartEmpty }) => {
             name: 'Otras galletitas',
             price: 7.24,
             imageSrc: imagen5,
-        },{
+        }/* ,{
             id: 6,
             name: 'Crema de leche',
             price: 16.69,
             imageSrc: imagen6,
-        }
+        } */
     ]);
+
+    const calcularTotal = () =>{
+        let total = 0
+        for (let i = 0; i < cartItems.length; i++) {
+            total += cartItems[i].price;
+        }
+
+        return total.toFixed(2)
+    }
 
     const handleRemoveItem = (itemId) => {
         // Lógica para eliminar un artículo del carrito.
@@ -78,6 +87,10 @@ const CarritoCompra = ({ setIsCartEmpty }) => {
                     />
                 ))
                 }
+            </div>
+            <div className='inv d-flex justify-content-center' style={{gap: '10px'}}>
+                <h3 className={`${styles.total} inv`}>Total:</h3>
+                <p className='inv' style={{marginTop: '0.5rem'}}>${calcularTotal()}</p>
             </div>
         </div>
     );
