@@ -16,7 +16,7 @@ const CarritoCompraItem = ({ item, onRemoveItem }) => {
                     <strong style={{ fontSize: '1.1rem', backgroundColor: "white" }}>{item.name}</strong>
                 </h3>
                 <p style={{ backgroundColor: "white" }}>
-                    Precio: <span style={{ color: 'grey', backgroundColor: "white" }}>${item.price.toFixed(2)}</span>
+                    Precio: <span style={{ color: 'grey', backgroundColor: "white" }}>${item.price}</span>
                 </p>
             </div>
             <div className="col-2 bg-white">

@@ -67,7 +67,7 @@ const RealizarPedido = () => {
         setCalle(inputValue);
         setCharCount(inputValue.length);
 
-        if (calle.length === 1) {
+        if (calle.length === 0) {
             calcularCostoEnvio();
         }
     };
@@ -152,11 +152,20 @@ const RealizarPedido = () => {
                     return false
                 } else {
                     const maxDate = new Date();
+                    const actualDate = new Date();
                     maxDate.setDate(maxDate.getDate() + 7)
+                    actualDate.setDate(maxDate.getDate())
                     const fechaEntrega = new Date(document.getElementById('fechaEntregaField').value)
 
                     if (fechaEntrega > maxDate) {
-                        toast.error('La fecha de entrega no puede ser mayor a 2 semanas', {
+                        toast.error('La fecha de entrega no puede ser mayor a 1 semana', {
+                            position: toast.POSITION.TOP_CENTER,
+                            autoClose: 5000, // Duración de 5 segundos
+                        });
+                        return false
+                    }
+                    if (fechaEntrega < actualDate) {
+                        toast.error('La fecha de entrega no puede ser anterior al dia actual', {
                             position: toast.POSITION.TOP_CENTER,
                             autoClose: 5000, // Duración de 5 segundos
                         });
@@ -222,14 +231,14 @@ const RealizarPedido = () => {
                 <div className="col-8">
                     <div className={`${styles.page}`}>
                         <div className={`${styles.formContainer}`}>
-                            <div className='inv'>
+                            <div className='inv' >
                                 <h1 className={`inv text-center ${styles.titulo}`}>Pedido a Comercio Adherido</h1>
                             </div>
                             <div className='inv d-flex align-items-center justify-content-center'>
                                 <div className='row d-flex justify-content-center inv'>
                                     <div className='col-3 inv'>
 
-                                        <div className='inv'>
+                                        <div id='domicilio' className='inv'>
                                             <h1 className={`inv text-center ${styles.subTitulo}`}>Domicilio</h1>
                                         </div>
 
@@ -302,6 +311,7 @@ const RealizarPedido = () => {
                                                 </select>
                                             </div>
                                         </div>
+                                        <br/>
                                         {
                                             isEfectivo ?
                                                 <div className='d-flex inv '>
@@ -337,7 +347,8 @@ const RealizarPedido = () => {
                                                             style={{
                                                                 marginTop: '10px',
                                                                 paddingRight: '15px',
-                                                                paddingLeft: '15px'
+                                                                paddingLeft: '15px',
+                                                                marginBottom: '10px'
                                                             }}>
                                                             <span className='inv'>N° de Tarjeta</span>
                                                         </div>
@@ -357,7 +368,9 @@ const RealizarPedido = () => {
                                                                 paddingRight: '15px',
                                                                 paddingLeft: '15px'
                                                             }}>
-                                                            <span className='inv'>Nombre</span>
+                                                            <span className='inv'>Nombre y Apellido
+                                                            </span>
+                                                            <br/>
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <input
@@ -376,7 +389,8 @@ const RealizarPedido = () => {
                                                             style={{
                                                                 marginTop: '10px',
                                                                 paddingRight: '15px',
-                                                                paddingLeft: '15px'
+                                                                paddingLeft: '15px',
+
                                                             }}>
                                                             <span className='inv'>Fecha de Vencimiento</span>
                                                         </div>
@@ -394,6 +408,7 @@ const RealizarPedido = () => {
                                                                 marginTop: '10px',
                                                                 paddingRight: '15px',
                                                                 paddingLeft: '15px'
+
                                                             }}>
                                                             <span className='inv'>CVV</span>
                                                         </div>
@@ -410,7 +425,7 @@ const RealizarPedido = () => {
                                     </div>
                                     <div className='col-4 inv'>
 
-                                        <div className='inv'>
+                                        <div id='entrega' className='inv'>
                                             <h1 className={`inv text-center ${styles.subTitulo}`}>Entrega</h1>
                                         </div>
                                         <div className='inv'>
@@ -424,6 +439,7 @@ const RealizarPedido = () => {
                                                 }}>
                                                 <span className='inv'>¿Cuando quiere Recibirlo?</span>
                                             </div>
+
                                             <div className='inv d-flex justify-content-center'>
                                                 <div className='col-9 inv'>
                                                     <select value={selectedEntrega} onChange={handleSelectedEntrega}
