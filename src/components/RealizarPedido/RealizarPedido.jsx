@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import NavBar from '../NavBar/NavBar.jsx'
 import Footer from '../Footer/Footer.jsx';
 import styles from './realizarPedido.module.css'
 import CiudadList from '../CiudadList/CiudadList'
 import CarritoCompra from "../CarritoCompra/CarritoCompra";
 import InputMask from "react-input-mask";
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {FormControl, FormLabel, Input} from "@chakra-ui/react";
 
 const RealizarPedido = () => {
 
@@ -26,6 +26,8 @@ const RealizarPedido = () => {
     const [horaInvalida, setHoraInvalida] = useState(false);
     const [charCount, setCharCount] = useState(0);
     const maxCharCount = 100;
+    const [distancia, setDistancia] = useState(0);
+    const [costoEnvio, setCostoEnvio] = useState(0);
 
     const handleSelectedMetodoPago = (event) => {
         setSelectedMetodoPago(event.target.value);
@@ -55,8 +57,7 @@ const RealizarPedido = () => {
         // Validar si el valor comienza con '4' para saber si es tarjeta VISA
         if (value.startsWith('4')) {
             setIsVisa(true);
-        }
-        else {
+        } else {
             setIsVisa(false)
         }
     }
@@ -65,7 +66,21 @@ const RealizarPedido = () => {
         const inputValue = e.target.value;
         setCalle(inputValue);
         setCharCount(inputValue.length);
+
+        if (calle.length === 1) {
+            calcularCostoEnvio();
+        }
     };
+
+    const calcularCostoEnvio = () => {
+        // Generamos un numero aleatorio para la distancia, la cual esta en metros
+        const numeroAleatorioGenerado = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+        setDistancia(numeroAleatorioGenerado);
+
+        //Calcular costo del envio
+        const costoEnvioTotal = ((distancia / 50) * 100).toFixed(2);
+        setCostoEnvio(costoEnvioTotal);
+    }
 
 
     const validateFields = () => {
@@ -92,8 +107,7 @@ const RealizarPedido = () => {
                 autoClose: 5000, // Duración de 5 segundos
             });
             return false
-        }
-        else {
+        } else {
             if (isTarjeta) {
                 if (!document.getElementById('numTarjetaField').value.startsWith(4)) {
 
@@ -102,8 +116,7 @@ const RealizarPedido = () => {
                         autoClose: 5000, // Duración de 5 segundos
                     });
                     return false
-                }
-                else {
+                } else {
                     if (!document.getElementById('nombreTarjetaField').value || !document.getElementById('vencimientoTarjetaField').value || !document.getElementById('cvvField').value) {
 
                         toast.error('Debe ingresar todos los datos de la tarjeta', {
@@ -137,8 +150,7 @@ const RealizarPedido = () => {
                         autoClose: 5000, // Duración de 5 segundos
                     });
                     return false
-                }
-                else {
+                } else {
                     const maxDate = new Date();
                     maxDate.setDate(maxDate.getDate() + 7)
                     const fechaEntrega = new Date(document.getElementById('fechaEntregaField').value)
@@ -187,8 +199,7 @@ const RealizarPedido = () => {
                     autoClose: 5000, // Duración de 5 segundos
                 });
             }
-        }
-        else {
+        } else {
             toast.error('¡El Carrito esta vacio!', {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 5000, // Duración de 5 segundos
@@ -199,12 +210,12 @@ const RealizarPedido = () => {
 
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <div className="row">
                 <div className="col-4">
                     <div className={`${styles.page}`}>
                         <div className={`${styles.formContainer}`}>
-                            <CarritoCompra setIsCartEmpty={setIsCartEmpty} />
+                            <CarritoCompra setIsCartEmpty={setIsCartEmpty}/>
                         </div>
                     </div>
                 </div>
@@ -231,19 +242,22 @@ const RealizarPedido = () => {
                                                     placeholder="Calle y número"
                                                     required
                                                     className={`form-control ${calle.length > maxCharCount ? 'is-invalid' : ''}`}
-                                                    style={{ marginTop: '10px' }}
+                                                    style={{marginTop: '10px'}}
                                                     value={calle}
                                                     onChange={handleCalleChange}
                                                     maxLength={maxCharCount}
                                                 />
-                                                <div className="text-muted small bg-white rounded p-1 text-right" style={{textAlign: "end"}}>
-                                                    <small className='bg-white text-right'>{charCount}/{maxCharCount}</small>
+                                                <div className="text-muted small bg-white rounded p-1 text-right"
+                                                     style={{textAlign: "end"}}>
+                                                    <small
+                                                        className='bg-white text-right'>{charCount}/{maxCharCount}</small>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className='d-flex inv '>
                                             <div className='col-12 inv'>
-                                                <CiudadList setSelectedCiudad={setSelectedCiudad} />
+                                                <CiudadList setSelectedCiudad={setSelectedCiudad}
+                                                            calcularCostoEnvio={calcularCostoEnvio}/>
                                             </div>
                                         </div>
                                         <div className='d-flex inv '>
@@ -254,10 +268,20 @@ const RealizarPedido = () => {
                                                     name="referencia"
                                                     placeholder="Referencias (opcional)"
                                                     className='form-control'
-                                                    style={{ marginTop: '10px' }}
+                                                    style={{marginTop: '10px'}}
                                                 />
                                             </div>
                                         </div>
+                                        {
+                                            (!calle || selectedCiudad === "none") ?
+                                                <div></div>
+                                                : <div className='inv d-flex justify-content-center'
+                                                       style={{gap: '10px'}}>
+                                                    <h3 className={`${styles.total} inv`}>Costo del envio:</h3>
+                                                    <p className='inv'
+                                                       style={{marginTop: '1.5rem'}}>${costoEnvio}</p>
+                                                </div>
+                                        }
                                     </div>
 
                                     <div className='col-5 inv'>
@@ -270,8 +294,8 @@ const RealizarPedido = () => {
                                         <div className='d-flex inv justify-content-center'>
                                             <div className='col-8 inv'>
                                                 <select value={selectedMetodoPago}
-                                                    onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
-                                                    className='form-select' style={{ marginTop: '10px' }}>
+                                                        onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
+                                                        className='form-select' style={{marginTop: '10px'}}>
                                                     <option disabled selected value="none">Forma de pago</option>
                                                     <option value="Efectivo">Efectivo</option>
                                                     <option value="Tarjeta">Debito/Credito</option>
@@ -297,7 +321,7 @@ const RealizarPedido = () => {
                                                             id='montoField'
                                                             name="monto"
                                                             className='form-control'
-                                                            style={{ marginTop: '10px' }}
+                                                            style={{marginTop: '10px'}}
                                                         />
                                                     </div>
                                                 </div>
@@ -318,7 +342,11 @@ const RealizarPedido = () => {
                                                             <span className='inv'>N° de Tarjeta</span>
                                                         </div>
                                                         <div className='col-7 inv'>
-                                                            <Input as={InputMask} style={{ marginTop: '10px' }} onChange={handleChange} id='numTarjetaField' className='form-control' placeholder="Numero de Tarjeta" mask="9999-9999-9999-9999" maskChar={null} />
+                                                            <Input as={InputMask} style={{marginTop: '10px'}}
+                                                                   onChange={handleChange} id='numTarjetaField'
+                                                                   className='form-control'
+                                                                   placeholder="Numero de Tarjeta"
+                                                                   mask="9999-9999-9999-9999" maskChar={null}/>
                                                         </div>
                                                     </div>
                                                     <div className='d-flex inv '>
@@ -338,7 +366,7 @@ const RealizarPedido = () => {
                                                                 name="nombreTarjeta"
                                                                 placeholder="Como figura en la tarjeta"
                                                                 className='form-control'
-                                                                style={{ marginTop: '10px' }}
+                                                                style={{marginTop: '10px'}}
                                                             />
                                                         </div>
                                                     </div>
@@ -353,7 +381,10 @@ const RealizarPedido = () => {
                                                             <span className='inv'>Fecha de Vencimiento</span>
                                                         </div>
                                                         <div className='col-7 inv'>
-                                                            <Input as={InputMask} id="vencimientoTarjetaField" style={{ marginTop: '10px' }} className='form-control' placeholder="MM/AAAA" mask="99/9999" maskChar={null} />
+                                                            <Input as={InputMask} id="vencimientoTarjetaField"
+                                                                   style={{marginTop: '10px'}} className='form-control'
+                                                                   placeholder="MM/AAAA" mask="99/9999"
+                                                                   maskChar={null}/>
                                                         </div>
                                                     </div>
                                                     <div className='d-flex inv '>
@@ -367,7 +398,9 @@ const RealizarPedido = () => {
                                                             <span className='inv'>CVV</span>
                                                         </div>
                                                         <div className='col-7 inv'>
-                                                            <Input as={InputMask} id='cvvField' style={{ marginTop: '10px' }} className='form-control' placeholder="cvv" mask="999" maskChar={null} />
+                                                            <Input as={InputMask} id='cvvField'
+                                                                   style={{marginTop: '10px'}} className='form-control'
+                                                                   placeholder="cvv" mask="999" maskChar={null}/>
                                                         </div>
                                                     </div>
                                                 </>
@@ -394,8 +427,8 @@ const RealizarPedido = () => {
                                             <div className='inv d-flex justify-content-center'>
                                                 <div className='col-9 inv'>
                                                     <select value={selectedEntrega} onChange={handleSelectedEntrega}
-                                                        id="comboBoxEntrega" className='form-select'
-                                                        style={{ marginTop: '10px' }}>
+                                                            id="comboBoxEntrega" className='form-select'
+                                                            style={{marginTop: '10px'}}>
                                                         <option disabled selected value="none"></option>
                                                         <option value="AntesPosible">Lo antes posible</option>
                                                         <option value="FechaEspecifica">Fecha especifica</option>
@@ -407,10 +440,10 @@ const RealizarPedido = () => {
                                         {
                                             isFechaEspecifica ?
                                                 <>
-                                                    <div className='d-flex inv ' style={{ marginTop: '10px' }}>
+                                                    <div className='d-flex inv ' style={{marginTop: '10px'}}>
                                                         <div
                                                             className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                            style={{ paddingRight: '15px', paddingLeft: '15px' }}>
+                                                            style={{paddingRight: '15px', paddingLeft: '15px'}}>
                                                             <span className='inv'>Fecha de Entrega</span>
                                                         </div>
                                                         <div className='col-7 inv'>
@@ -419,7 +452,7 @@ const RealizarPedido = () => {
                                                                 id='fechaEntregaField'
                                                                 name="fechaEntrega"
                                                                 className='form-control'
-                                                                style={{ marginTop: '10px' }}
+                                                                style={{marginTop: '10px'}}
                                                             />
                                                         </div>
                                                     </div>
@@ -434,7 +467,9 @@ const RealizarPedido = () => {
                                                             <span className='inv'>Hora</span>
                                                         </div>
                                                         <div className='col-7 inv'>
-                                                            <Input as={InputMask} id='horaEntregaField' style={{ marginTop: '10px' }} className='form-control' placeholder="HH:MM" mask="99:99" maskChar={null} />
+                                                            <Input as={InputMask} id='horaEntregaField'
+                                                                   style={{marginTop: '10px'}} className='form-control'
+                                                                   placeholder="HH:MM" mask="99:99" maskChar={null}/>
                                                         </div>
                                                     </div>
                                                 </>
@@ -443,8 +478,9 @@ const RealizarPedido = () => {
                                         }
                                     </div>
 
-                                    <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        <button onClick={submitHandler} className={`col-12 ${styles['btn-realizar-pedido']}`}>
+                                    <div className='col-4 inv' style={{marginTop: '20px', marginBottom: '20px'}}>
+                                        <button onClick={submitHandler}
+                                                className={`col-12 ${styles['btn-realizar-pedido']}`}>
                                             Realizar Pedido
                                         </button>
                                     </div>
@@ -454,7 +490,7 @@ const RealizarPedido = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
 
         </>
     );
