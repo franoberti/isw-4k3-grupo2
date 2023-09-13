@@ -236,8 +236,8 @@ const RealizarPedido = () => {
                                                     onChange={handleCalleChange}
                                                     maxLength={maxCharCount}
                                                 />
-                                                <div className="text-muted small bg-white rounded p-1 text-right">
-                                                    <small className='bg-white'>{charCount}/{maxCharCount}</small>
+                                                <div className="text-muted small bg-white rounded p-1 text-right" style={{textAlign: "end"}}>
+                                                    <small className='bg-white text-right'>{charCount}/{maxCharCount}</small>
                                                 </div>
                                             </div>
                                         </div>
