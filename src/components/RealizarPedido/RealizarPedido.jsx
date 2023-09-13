@@ -1,15 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '../NavBar/NavBar.jsx'
 import Footer from '../Footer/Footer.jsx';
 import styles from './realizarPedido.module.css'
 import CiudadList from '../CiudadList/CiudadList'
 import CarritoCompra from "../CarritoCompra/CarritoCompra";
 import InputMask from "react-input-mask";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {FormControl, FormLabel, Input} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 const RealizarPedido = () => {
+
+
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 7); // Agregar 7 días a la fecha actual
+
 
     const [calle, setCalle] = useState('');
     const [selectedMetodoPago, setSelectedMetodoPago] = useState("none");
@@ -155,7 +161,7 @@ const RealizarPedido = () => {
                     });
                     return false
                 } else {
-                    const maxDate = new Date();
+                    /* const maxDate = new Date();
                     const actualDate = new Date();
                     maxDate.setDate(maxDate.getDate() + 7)
                     actualDate.setDate(maxDate.getDate())
@@ -170,13 +176,13 @@ const RealizarPedido = () => {
                         return false
                     }
                     if (fechaEntrega < actualDate) {
-                       toast.error('La fecha de entrega no puede ser anterior al dia actual', {
+                        toast.error('La fecha de entrega no puede ser anterior al dia actual', {
 
                             position: toast.POSITION.TOP_CENTER,
                             autoClose: 5000, // Duración de 5 segundos
                         });
                         return false
-                    }
+                    } */
 
                     const inputHora = document.getElementById('horaEntregaField').value
                     const horaValida = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(inputHora);
@@ -225,12 +231,12 @@ const RealizarPedido = () => {
 
     return (
         <>
-            <NavBar/>
+            <NavBar />
             <div className="row">
                 <div className="col-4">
                     <div className={`${styles.page}`}>
                         <div className={`${styles.formContainer}`}>
-                            <CarritoCompra setIsCartEmpty={setIsCartEmpty}/>
+                            <CarritoCompra setIsCartEmpty={setIsCartEmpty} />
                         </div>
                     </div>
                 </div>
@@ -257,13 +263,13 @@ const RealizarPedido = () => {
                                                     placeholder="Calle y número"
                                                     required
                                                     className={`form-control ${calle.length > maxCharCount ? 'is-invalid' : ''}`}
-                                                    style={{marginTop: '10px'}}
+                                                    style={{ marginTop: '10px' }}
                                                     value={calle}
                                                     onChange={handleCalleChange}
                                                     maxLength={maxCharCount}
                                                 />
                                                 <div className="text-muted small bg-white rounded p-1 text-right"
-                                                     style={{textAlign: "end"}}>
+                                                    style={{ textAlign: "end" }}>
                                                     <small
                                                         className='bg-white text-right'>{charCount}/{maxCharCount}</small>
                                                 </div>
@@ -272,7 +278,7 @@ const RealizarPedido = () => {
                                         <div className='d-flex inv '>
                                             <div className='col-12 inv'>
                                                 <CiudadList setSelectedCiudad={setSelectedCiudad}
-                                                            calcularCostoEnvio={calcularCostoEnvio}/>
+                                                    calcularCostoEnvio={calcularCostoEnvio} />
                                             </div>
                                         </div>
                                         <div className='d-flex inv '>
@@ -283,7 +289,7 @@ const RealizarPedido = () => {
                                                     name="referencia"
                                                     placeholder="Referencias (opcional)"
                                                     className='form-control'
-                                                    style={{marginTop: '10px'}}
+                                                    style={{ marginTop: '10px' }}
                                                 />
                                             </div>
                                         </div>
@@ -291,10 +297,10 @@ const RealizarPedido = () => {
                                             (!calle || selectedCiudad === "none") ?
                                                 <div></div>
                                                 : <div className='inv d-flex justify-content-center'
-                                                       style={{gap: '10px'}}>
+                                                    style={{ gap: '10px' }}>
                                                     <h3 className={`${styles.total} inv`}>Costo del envio:</h3>
                                                     <p className='inv'
-                                                       style={{marginTop: '1.5rem'}}>${costoEnvio}</p>
+                                                        style={{ marginTop: '1.5rem' }}>${costoEnvio}</p>
                                                 </div>
                                         }
                                     </div>
@@ -309,15 +315,15 @@ const RealizarPedido = () => {
                                         <div className='d-flex inv justify-content-center'>
                                             <div className='col-8 inv'>
                                                 <select value={selectedMetodoPago}
-                                                        onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
-                                                        className='form-select' style={{marginTop: '10px'}}>
+                                                    onChange={handleSelectedMetodoPago} id="comboBoxMetodoPago"
+                                                    className='form-select' style={{ marginTop: '10px' }}>
                                                     <option disabled selected value="none">Forma de pago</option>
                                                     <option value="Efectivo">Efectivo</option>
                                                     <option value="Tarjeta">Debito/Credito</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <br/>
+                                        <br />
                                         {
                                             isEfectivo ?
                                                 <div className='d-flex inv '>
@@ -331,14 +337,10 @@ const RealizarPedido = () => {
                                                         <span className='inv'>Monto con que va a pagar</span>
                                                     </div>
                                                     <div className='col-7 inv'>
-                                                        <input
-                                                            type="number"
-                                                            step="0.01"
-                                                            id='montoField'
-                                                            name="monto"
-                                                            className='form-control'
-                                                            style={{marginTop: '10px'}}
-                                                        />
+
+                                                        <input id="montoField"
+                                                            style={{ marginTop: '10px' }} className='form-control'
+                                                            placeholder="Monto" type='number' step='0.01' />
                                                     </div>
                                                 </div>
 
@@ -360,11 +362,11 @@ const RealizarPedido = () => {
                                                             <span className='inv'>N° de Tarjeta</span>
                                                         </div>
                                                         <div className='col-7 inv'>
-                                                            <Input as={InputMask} style={{marginTop: '10px'}}
-                                                                   onChange={handleChange} id='numTarjetaField'
-                                                                   className='form-control'
-                                                                   placeholder="Numero de Tarjeta"
-                                                                   mask="9999-9999-9999-9999" maskChar={null}/>
+                                                            <Input as={InputMask} style={{ marginTop: '10px' }}
+                                                                onChange={handleChange} id='numTarjetaField'
+                                                                className='form-control'
+                                                                placeholder="Numero de Tarjeta"
+                                                                mask="9999-9999-9999-9999" maskChar={null} />
                                                         </div>
                                                     </div>
                                                     <div className='d-flex inv '>
@@ -377,7 +379,7 @@ const RealizarPedido = () => {
                                                             }}>
                                                             <span className='inv'>Nombre y Apellido
                                                             </span>
-                                                            <br/>
+                                                            <br />
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <input
@@ -386,7 +388,7 @@ const RealizarPedido = () => {
                                                                 name="nombreTarjeta"
                                                                 placeholder="Como figura en la tarjeta"
                                                                 className='form-control'
-                                                                style={{marginTop: '10px'}}
+                                                                style={{ marginTop: '10px' }}
                                                             />
                                                         </div>
                                                     </div>
@@ -403,9 +405,9 @@ const RealizarPedido = () => {
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <Input as={InputMask} id="vencimientoTarjetaField"
-                                                                   style={{marginTop: '10px'}} className='form-control'
-                                                                   placeholder="MM/AAAA" mask="99/9999"
-                                                                   maskChar={null}/>
+                                                                style={{ marginTop: '10px' }} className='form-control'
+                                                                placeholder="MM/AAAA" mask="99/9999"
+                                                                maskChar={null} />
                                                         </div>
                                                     </div>
                                                     <div className='d-flex inv '>
@@ -417,12 +419,12 @@ const RealizarPedido = () => {
                                                                 paddingLeft: '15px'
 
                                                             }}>
-                                                            <span className='inv'>CVV</span>
+                                                            <span className='inv'>CVC</span>
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <Input as={InputMask} id='cvvField'
-                                                                   style={{marginTop: '10px'}} className='form-control'
-                                                                   placeholder="cvv" mask="999" maskChar={null}/>
+                                                                style={{ marginTop: '10px' }} className='form-control'
+                                                                placeholder="cvc" mask="999" maskChar={null} />
                                                         </div>
                                                     </div>
                                                 </>
@@ -450,8 +452,8 @@ const RealizarPedido = () => {
                                             <div className='inv d-flex justify-content-center'>
                                                 <div className='col-9 inv'>
                                                     <select value={selectedEntrega} onChange={handleSelectedEntrega}
-                                                            id="comboBoxEntrega" className='form-select'
-                                                            style={{marginTop: '10px'}}>
+                                                        id="comboBoxEntrega" className='form-select'
+                                                        style={{ marginTop: '10px' }}>
                                                         <option disabled selected value="none"></option>
                                                         <option value="AntesPosible">Lo antes posible</option>
                                                         <option value="FechaEspecifica">Fecha especifica</option>
@@ -463,10 +465,10 @@ const RealizarPedido = () => {
                                         {
                                             isFechaEspecifica ?
                                                 <>
-                                                    <div className='d-flex inv ' style={{marginTop: '10px'}}>
+                                                    <div className='d-flex inv ' style={{ marginTop: '10px' }}>
                                                         <div
                                                             className='d-flex col-5 inv text-center align-items-center justify-content-end '
-                                                            style={{paddingRight: '15px', paddingLeft: '15px'}}>
+                                                            style={{ paddingRight: '15px', paddingLeft: '15px' }}>
                                                             <span className='inv'>Fecha de Entrega</span>
                                                         </div>
                                                         <div className='col-7 inv'>
@@ -475,7 +477,10 @@ const RealizarPedido = () => {
                                                                 id='fechaEntregaField'
                                                                 name="fechaEntrega"
                                                                 className='form-control'
-                                                                style={{marginTop: '10px'}}
+                                                                /* onChange={this.handleDateChange} */
+                                                                min={new Date().toISOString().split('T')[0]}
+                                                                max={new Date(maxDate).toISOString().split('T')[0]}
+                                                                style={{ marginTop: '10px' }}
                                                             />
                                                         </div>
                                                     </div>
@@ -491,8 +496,8 @@ const RealizarPedido = () => {
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <Input as={InputMask} id='horaEntregaField'
-                                                                   style={{marginTop: '10px'}} className='form-control'
-                                                                   placeholder="HH:MM" mask="99:99" maskChar={null}/>
+                                                                style={{ marginTop: '10px' }} className='form-control'
+                                                                placeholder="HH:MM" mask="99:99" maskChar={null} />
                                                         </div>
                                                     </div>
                                                 </>
@@ -503,7 +508,7 @@ const RealizarPedido = () => {
                                             isAntesPosible ?
                                                 <>
                                                     <div className='d-flex inv text-center align-items-center justify-content-end'>
-                                                        <div className='d-flex col-12 inv text-center align-items-center justify-content-end ' style={{marginTop: '10px', paddingRight: '15px', paddingLeft: '15px'}}>
+                                                        <div className='d-flex col-12 inv text-center align-items-center justify-content-end ' style={{ marginTop: '10px', paddingRight: '15px', paddingLeft: '15px' }}>
                                                             <span className={`${styles.info} inv text-center`} >La entrega se realizará dentro de 1hs</span>
                                                         </div>
                                                     </div>
@@ -513,9 +518,9 @@ const RealizarPedido = () => {
                                         }
                                     </div>
 
-                                    <div className='col-4 inv' style={{marginTop: '20px', marginBottom: '20px'}}>
+                                    <div className='col-4 inv' style={{ marginTop: '20px', marginBottom: '20px' }}>
                                         <button onClick={submitHandler}
-                                                className={`col-12 ${styles['btn-realizar-pedido']}`}>
+                                            className={`col-12 ${styles['btn-realizar-pedido']}`}>
                                             Realizar Pedido
                                         </button>
                                     </div>
@@ -525,7 +530,7 @@ const RealizarPedido = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
 
         </>
     );
