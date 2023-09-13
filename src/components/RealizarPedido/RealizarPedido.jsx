@@ -117,7 +117,7 @@ const RealizarPedido = () => {
                     const fechaEntrega = new Date(document.getElementById('fechaEntregaField').value)
 
                     if (fechaEntrega > maxDate) {
-                        toast.error('La fecha de entrega no puede ser mayor a 2 semanas', {
+                        toast.error('La fecha de entrega no puede ser mayor a 1 semanas', {
                             position: toast.POSITION.TOP_CENTER,
                             autoClose: 5000, // Duración de 5 segundos
                         });
@@ -268,6 +268,7 @@ const RealizarPedido = () => {
                                                         />
                                                     </div>
                                                 </div>
+
                                                 :
                                                 <></>
                                         }
@@ -402,6 +403,18 @@ const RealizarPedido = () => {
                                                         </div>
                                                         <div className='col-7 inv'>
                                                             <Input as={InputMask} id='horaEntregaField' style={{ marginTop: '10px' }} className='form-control' placeholder="HH:MM" mask="99:99" maskChar={null} />
+                                                        </div>
+                                                    </div>
+                                                </>
+                                                :
+                                                <></>
+                                        }
+                                        {
+                                            isAntesPosible ?
+                                                <>
+                                                    <div className='d-flex inv text-center align-items-center justify-content-end'>
+                                                        <div className='d-flex col-12 inv text-center align-items-center justify-content-end ' style={{marginTop: '10px', paddingRight: '15px', paddingLeft: '15px'}}>
+                                                            <span className={`${styles.info} inv text-center`} >La entrega se realizará dentro de 1hs</span>
                                                         </div>
                                                     </div>
                                                 </>
