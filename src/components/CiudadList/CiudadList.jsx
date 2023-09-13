@@ -1,8 +1,9 @@
 import React from 'react';
 
-const CiudadList = ({ setSelectedCiudad }) => {
+const CiudadList = ({ setSelectedCiudad, calcularCostoEnvio }) => {
     const handleSelectedCiudad = (event) => {
         setSelectedCiudad(event.target.value);
+        calcularCostoEnvio();
     };
     return (
         <select id="comboBoxCiudad" onChange={handleSelectedCiudad} className='form-select' style={{ marginTop: '10px' }}>

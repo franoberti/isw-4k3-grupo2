@@ -55,3 +55,11 @@
 .btn-realizar-pedido:hover {
     background-color: var(--color-highlight);
 }
+
+.total {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif !important;
+    color: var(--color-primary);
+    font-size: 20px;
+}
