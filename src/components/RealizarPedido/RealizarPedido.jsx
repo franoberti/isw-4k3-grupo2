@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import NavBar from '../NavBar/NavBar.jsx'
 import Footer from '../Footer/Footer.jsx';
 import styles from './realizarPedido.module.css'
 import CiudadList from '../CiudadList/CiudadList'
 import CarritoCompra from "../CarritoCompra/CarritoCompra";
 import InputMask from "react-input-mask";
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import 'react-toastify/dist/ReactToastify.css';
 
 const RealizarPedido = () => {
 
@@ -34,6 +34,7 @@ const RealizarPedido = () => {
     const maxCharCount = 100;
     const [distancia, setDistancia] = useState(0);
     const [costoEnvio, setCostoEnvio] = useState(0);
+    const [costoEnvioToShow, setCostoEnvioToShow] = useState(0);
 
     const handleSelectedMetodoPago = (event) => {
         setSelectedMetodoPago(event.target.value);
@@ -89,7 +90,8 @@ const RealizarPedido = () => {
         // Formatear el número redondeado con coma como separador decimal
         const costoEnvioTotalFormateado = costoEnvioTotal.toLocaleString('es-ES');
 
-        setCostoEnvio(costoEnvioTotalFormateado);
+        setCostoEnvio(costoEnvioTotal);
+        setCostoEnvioToShow(costoEnvioTotalFormateado)
     }
 
 
@@ -236,7 +238,7 @@ const RealizarPedido = () => {
                 <div className="col-4">
                     <div className={`${styles.page}`}>
                         <div className={`${styles.formContainer}`}>
-                            <CarritoCompra setIsCartEmpty={setIsCartEmpty} />
+                            <CarritoCompra setIsCartEmpty={setIsCartEmpty} costoEnvio={costoEnvio}/>
                         </div>
                     </div>
                 </div>
@@ -277,8 +279,7 @@ const RealizarPedido = () => {
                                         </div>
                                         <div className='d-flex inv '>
                                             <div className='col-12 inv'>
-                                                <CiudadList setSelectedCiudad={setSelectedCiudad}
-                                                    calcularCostoEnvio={calcularCostoEnvio} />
+                                                <CiudadList setSelectedCiudad={setSelectedCiudad} calcularCostoEnvio={calcularCostoEnvio} />
                                             </div>
                                         </div>
                                         <div className='d-flex inv '>
@@ -300,7 +301,7 @@ const RealizarPedido = () => {
                                                     style={{ gap: '10px' }}>
                                                     <h3 className={`${styles.total} inv`}>Costo del envio:</h3>
                                                     <p className='inv'
-                                                        style={{ marginTop: '1.5rem' }}>${costoEnvio}</p>
+                                                        style={{ marginTop: '1.5rem' }}>${costoEnvioToShow}</p>
                                                 </div>
                                         }
                                     </div>
