@@ -67,19 +67,23 @@ const RealizarPedido = () => {
         setCalle(inputValue);
         setCharCount(inputValue.length);
 
-        if (calle.length === 1) {
+        if (calle.length === 0) {
             calcularCostoEnvio();
         }
     };
 
     const calcularCostoEnvio = () => {
         // Generamos un numero aleatorio para la distancia, la cual esta en metros
-        const numeroAleatorioGenerado = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+        const numeroAleatorioGenerado = parseFloat(((Math.random() * (1000 - 100 + 1)) + 100).toFixed(2));
         setDistancia(numeroAleatorioGenerado);
 
         //Calcular costo del envio
-        const costoEnvioTotal = ((distancia / 50) * 100).toFixed(2);
-        setCostoEnvio(costoEnvioTotal);
+        const costoEnvioTotal = parseFloat(((distancia / 50) * 100).toFixed(2));
+
+        // Formatear el número redondeado con coma como separador decimal
+        const costoEnvioTotalFormateado = costoEnvioTotal.toLocaleString('es-ES');
+
+        setCostoEnvio(costoEnvioTotalFormateado);
     }
 
 
